@@ -2,7 +2,6 @@
 #ifndef HEADER_H
 #define HEADER_H
 
-
 #pragma comment (lib, "d3dx9.lib")
 #pragma comment (lib, "d3d9.lib")
 
@@ -13,10 +12,9 @@
 #include <fstream>
 #include <detours.h>
 
+int fontSize = 20;
 
-int fontSize = 20;	
-
-int MenuX = 0;	
+int MenuX = 0;
 int MenuY = 0;
 
 int MenuW = 165;
@@ -34,7 +32,6 @@ tDrawIndexedPrimitive oDrawIndexedPrimitive;
 
 unsigned int uiStride = NULL;
 
-
 LPDIRECT3DDEVICE9 g_pDevice = NULL;
 LPD3DXLINE g_Line = NULL;
 LPD3DXFONT g_pFont = NULL;
@@ -45,14 +42,12 @@ LPDIRECT3DTEXTURE9 g_pTexGreen = NULL;
 
 D3DVIEWPORT9 g_ViewPort;
 
-
 int selector = 0;
 int itemSelector = -1;
 
-
 int MenuH = 0;
 
-bool isFirstRun = true;	
+bool isFirstRun = true;
 
 #define HOOK(func, addy) o##func = (t##func)DetourFunction((PBYTE)addy, (PBYTE)hk##func)
 
@@ -128,7 +123,6 @@ class TpMenu
 public:
 	int colCount = 0;
 	int selector = 0;
-
 
 	Colum Col[10];
 	HACK Hack[15];

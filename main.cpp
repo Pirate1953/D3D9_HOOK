@@ -60,7 +60,6 @@ void DrawBox(int x, int y, int w, int h, D3DCOLOR BoxColor, D3DCOLOR BorderColor
 	DrawBorder(x, y, w, h, 1, BorderColor, pDevice);
 }
 
-
 TpMenu menu;
 
 void TpMenu::StartHack()
@@ -107,7 +106,7 @@ void TpMenu::BuildMenu(char *name, int x, int y, int w)
 
 		PrintText(name, x + (w - GetTextWidth(name, g_pFont)) / 2, y + 2, GREEN, g_pFont);
 
-		FillARGB(x + 3, y + fontSize + 5, MenuW - 6, MenuH - (fontSize + 5), BLUE); 
+		FillARGB(x + 3, y + fontSize + 5, MenuW - 6, MenuH - (fontSize + 5), BLUE);
 		DrawBorder(x + 3, y + fontSize + 5, MenuW - 6, MenuH - (fontSize + 5), 1, RED, g_pDevice);
 
 
@@ -119,14 +118,14 @@ void TpMenu::BuildMenu(char *name, int x, int y, int w)
 			char hName[15];
 			sprintf_s(hName, "[%s]", Col[i].Name);
 
-			DrawBorder(x + 5, y + MenuH, w - 10, fontSize + 10, 1, (selector == i &&itemSelector == -1) ? GREEN : RED, g_pDevice);
+			DrawBorder(x + 5, y + MenuH, w - 10, fontSize + 10, 1, (selector == i && itemSelector == -1) ? GREEN : RED, g_pDevice);
 			PrintText(hName, x + (w - 10 - GetTextWidth(hName, g_pFont)) / 2, y + MenuH + 5, Col[i].on ? GREEN : RED, g_pFont);
 			Col[i].y = y + MenuH;
 			MenuH += fontSize + 13;
 			if (Col[i].on)
 				for (int a = 0; a < Col[i].hacks; a++)
 				{
-					PrintText(Col[i].hk[a].Name, x + 10, y + MenuH, selector == i && itemSelector == a ? GREEN : RED, g_pFont);
+					PrintText(Col[i].hk[a].Name, x + 10, y + MenuH, selector == i && itemSelector == a ? GREEN : RED, g_pFont);	
 					PrintText(Col[i].hk[a].value == 0 ? "N" : "Y", x + w - 35, y + MenuH, Col[i].hk[a].value == 0 ? RED : GREEN, g_pFont);
 					MenuH += fontSize + 3;
 
@@ -249,6 +248,25 @@ HRESULT WINAPI hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 
 HRESULT WINAPI hkDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYPE PrimType, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT PrimitiveCount)
 {
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 15; j++)
+		{
+			if (menu.Col[i].hk[j].Name == "Polygons" && menu.Col[i].hk[j].value == 1)
+			{
+				pDevice->SetRenderState(D3DRS_ZENABLE, false);
+				pDevice->SetRenderState(D3DRS_AMBIENT, (DWORD)D3DCOLOR_XRGB(255, 255, 255));
+				pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+				pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+				oDrawIndexedPrimitive(pDevice, PrimType, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, PrimitiveCount);
+				
+				pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+				pDevice->SetRenderState(D3DRS_ZENABLE, true);
+				break;
+			}
+		}
+	}
+
 	__asm nop
 
 	HRESULT hRet = oDrawIndexedPrimitive(pDevice, PrimType, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, PrimitiveCount);
