@@ -261,6 +261,7 @@ HRESULT WINAPI hkDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYP
 				else
 				{
 					pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+					pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
 					oDrawIndexedPrimitive(pDevice, PrimType, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, PrimitiveCount);
 				}
 				break;
