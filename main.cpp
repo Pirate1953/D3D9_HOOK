@@ -252,16 +252,17 @@ HRESULT WINAPI hkDrawIndexedPrimitive(LPDIRECT3DDEVICE9 pDevice, D3DPRIMITIVETYP
 	{
 		for (int j = 0; j < 15; j++)
 		{
-			if (menu.Col[i].hk[j].Name == "Polygons" && menu.Col[i].hk[j].value == 1)
+			if (menu.Col[i].hk[j].Name == "Polygons")
 			{
-				pDevice->SetRenderState(D3DRS_ZENABLE, false);
-				pDevice->SetRenderState(D3DRS_AMBIENT, (DWORD)D3DCOLOR_XRGB(255, 255, 255));
-				pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-				pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-				oDrawIndexedPrimitive(pDevice, PrimType, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, PrimitiveCount);
-				
-				pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-				pDevice->SetRenderState(D3DRS_ZENABLE, true);
+				if (menu.Col[i].hk[j].value == 0)
+				{
+					pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+				}
+				else
+				{
+					pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+					oDrawIndexedPrimitive(pDevice, PrimType, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, PrimitiveCount);
+				}
 				break;
 			}
 		}
